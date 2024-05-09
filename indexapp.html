@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es" class="grabbable">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="custom-row-one-1 form-event">
+        <!-- Section Config -->
+        <div class="custom-box first-box">
+          <div class="custom-header">
+            <h3 class="custom-title">Config.</h3>
+          </div>
+          <div class="custom-body">
+            <p class="p-body">Execute the first time the process is run.</p>
+            <div class="mb-4">
+              <label for="selectconfig">Where does the data come from?</label>
+              <select
+                class="form-control"
+                v-model="selectconfig"
+                @change="setMessage"
+              >
+                <option value="">-- Select Option --</option>
+                <option value="excel">Excel</option>
+                <option value="xperience">Xperience</option>
+                <option value="database">Database</option>
+                <option value="robot">Robot</option>
+              </select>
+            </div>
+            <!-- excel config -->
+            <div id="excelConfig" v-if="selectconfig=='excel'">
+              <div class="mt-3">
+                <label for="input-group">Path Excel</label>
+                <div class="input-group mb-3" id="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    accept=".xlsx"
+                    v-model="inputexcelconfig"
+                    @change="setMessage"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      @click="getPath"
+                      id="btninputconfig"
+                    >
+                      Excel File
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="inputsheetconfig">Sheet</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    accept=".xlsx"
+                    id="inputsheetconfig"
+                    v-model="inputsheetconfig"
+                    @change="setMessage"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="inputrangeconfig">Range</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    accept=".xlsx"
+                    id="inputrangeconfig"
+                    v-model="inputrangeconfig"
+                    @change="setMessage"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- xperience -->
+            <div v-if="selectconfig=='xperience'">
+              <div>
+                <label for="url_server">URL Server:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="urlServer"
+                  @change="setMessage"
+                  v-model="urlServer"
+                />
+              </div>
+              <div class="mt-3">
+                <label for="apiKey">API KEY:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  @change="setMessage"
+                  v-model="apiKey"
+                />
+              </div>
+              <div class="mt-3">
+                <label for="formToken">Form Token:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  @change="setMessage"
+                  v-model="formToken"
+                />
+              </div>
+            </div>
+            <!-- database -->
+            <div
+              id="databaseConfig"
+              v-if="selectconfig=='database'"
+              class="mt-3"
+            >
+              <label for="input-group">Database Path</label>
+              <div class="input-group mb-3" id="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  accept=".db"
+                  id="inputDbPath"
+                  v-model="inputDbPath"
+                  @change="setMessage"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="btndbconfig"
+                    @click="getPath($event)"
+                  >
+                    Db File
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- robot -->
+            <div id="robotConfig" v-if="selectconfig=='robot'" class="mt-3">
+              <div class="my-3">
+                <label for="robotselectconfig">Select robot:</label>
+                <select
+                  class="form-control"
+                  @change="setMessage"
+                  v-model="robotselectconfig"
+                  id="robotselectconfig"
+                >
+                  <option value="">-- Select Robot --</option>
+                  <option v-for="bot in bots" :value="bot.name">
+                    {{ bot.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="mt-5">
+                <button type="button" class="btn btn-outline-secondary w-100">
+                  Vars
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Master -->
+      <div class="custom-row-two-1 form-event">
+        <div class="custom-box">
+          <div class="custom-header">
+            <h3 class="custom-title">Master</h3>
+          </div>
+          <div class="custom-body">
+            <p class="p-body">Get the next transaction to be processed.</p>
+            <label for="master">How will I communicate to the sheep?</label>
+            <select
+              class="form-control"
+              v-model="selectMaster"
+              @change="setMessage"
+            >
+              <option value="">-- Select Option --</option>
+              <option value="robotMaster">Run Robot</option>
+              <option value="robotAsyncMaster">Run Asynchronous Robot</option>
+              <option value="fileMaster">Write to file</option>
+            </select>
+            <!-- Robot -->
+            <div
+              id="robotMaster"
+              class="mt-3 send-message"
+              v-if="selectMaster=='robotMaster'"
+            >
+              <label for="robotselectmaster">Robot Name:</label>
+              <select
+                class="form-control"
+                v-model="robotselectmaster"
+                @change="setMessage"
+              >
+                <option value="">-- Select Robot --</option>
+                <option v-for="bot in bots" :value="bot.name">
+                  {{ bot.name }}
+                </option>
+              </select>
+            </div>
+            <!-- Robot Asynchronous -->
+            <div
+              id="robotAsyncMaster"
+              class="mt-3"
+              v-if="selectMaster=='robotAsyncMaster'"
+            >
+              <div>
+                <label for="robotasyncName">Robot Asynchronous name:</label>
+                <select
+                  class="form-control"
+                  id="robotselectmaster"
+                  v-model="robotselectasyncmaster"
+                  @change="setMessage"
+                >
+                  <option value="">-- Select Robot --</option>
+                  <option v-for="bot in bots" :value="bot.name">
+                    {{ bot.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="mt-3">
+                <label for="input-group">Database Path</label>
+                <div class="input-group mb-3" id="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    accept=".db"
+                    v-model="inputdbmaster"
+                    @change="setMessage"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="btndbmaster"
+                      @click="getPath"
+                    >
+                      File
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  File Writer -->
+            <div
+              id="fileMaster"
+              class="mt-3"
+              v-if="selectMaster=='fileMaster'"
+              @chage="selectEnd"
+            >
+              <label for="input-group">File to write:</label>
+              <div class="input-group mb-3" id="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  accept=""
+                  id="inputfilemaster"
+                  v-model="inputfilemaster"
+                  @change="setMessage"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="btnfilemaster"
+                    @click="getPath"
+                  >
+                    File
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="custom-row-two-2 form-event">
+        <div class="custom-box">
+          <div class="custom-header">
+            <h3 class="custom-title">End Process</h3>
+          </div>
+          <div class="custom-body">
+            <p class="p-body">End process and close all applications used.</p>
+            <div class="mt-3">
+              <label for="endprocess">Select robot:</label>
+              <select
+                class="form-control"
+                id="endprocess"
+                @change="setMessage"
+                v-model="selectEnd"
+              >
+                <option value="">-- Select Robot --</option>
+                <option v-for="bot in bots" :value="bot.name">
+                  {{ bot.name }}
+                </option>
+              </select>
+            </div>
+            <div class="mt-3">
+              <button
+                type="button"
+                class="btn btn-outline-secondary w-100"
+                data-toggle="modal"
+                data-target="#staticBackdrop"
+              >
+                Vars
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="arrows">
+        <!-- Arrow Successful 2 -->
+        <div class="arrow-line" id="arrow1"></div>
+        <div class="arrow-text" id="arrowText1">Success</div>
+        <!-- Arrow No Data -->
+        <div class="arrow-line" id="arrow4"></div>
+        <div class="arrow-line-mid" id="arrow4-mid-1"></div>
+        <div class="arrow-text" id="arrowText4">Error</div>
+        <!-- Arrow Business Exception -->
+        <div class="arrow-line" id="arrow6"></div>
+        <div class="arrow-line-mid" id="arrow6-mid-1"></div>
+        <div class="arrow-line-mid" id="arrow6-mid-2"></div>
+        <div class="arrow-line-mid" id="arrow6-mid-3"></div>
+        <div class="arrow-text" id="arrowText6">Success</div>
+        <!-- Arrow System Exception 2 -->
+        <div class="arrow-line" id="arrow7"></div>
+        <div class="arrow-line-mid" id="arrow7-mid-1"></div>
+        <div class="arrow-text" id="arrowText7">Error</div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="restoreButton" onclick="restorePosition()">
+        <i class="fas fa-undo-alt"></i>
+      </button>
+      <button id="zoomInButton" onclick="zoomIn()">
+        <i class="fas fa-search-plus"></i>
+      </button>
+      <button id="zoomOutButton" onclick="zoomOut()">
+        <i class="fas fa-search-minus"></i>
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Vars</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td><input type="text" /></td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td><input type="text" /></td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Larry</td>
+                  <td>the Bird</td>
+                  <td><input type="text" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./vue.global.js"></script>
+    <script src="./app.js"></script>
+    <script src="./functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
