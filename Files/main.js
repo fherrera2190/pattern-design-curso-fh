@@ -7,3 +7,8 @@ inputFile.addEventListener("change", (event) => {
     img.src = URL.createObjectURL(event.target.files[0])
     console.log(img.src)
 })
+
+
+let blob = new Blob(["Hello, world!"], {type: 'text/plain'});
+
+link.href = URL.createObjectURL(blob);
