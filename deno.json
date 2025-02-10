@@ -1,0 +1,7 @@
+{
+  "tasks": {},
+  "imports": {
+    "@deno-library/logger": "jsr:@deno-library/logger@^1.1.8",
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
