@@ -9,3 +9,13 @@
  *
  * https://refactoring.guru/es/design-patterns/singleton
  */
+
+import { configManager } from "./singleton/config-manager.ts";
+
+configManager.setConfig("apiUrl", "https://api.example.com");
+configManager.setConfig("timeout", "5000");
+configManager.setConfig("apiKey", "abc123");
+// console.log(configManager.getAllConfig());
+console.log(configManager.getConfig("apiUrl"));
+console.log(configManager.getConfig("timeout"));
+console.log(configManager.getConfig("apiKey"));
