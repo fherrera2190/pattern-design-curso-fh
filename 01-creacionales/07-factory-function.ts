@@ -25,5 +25,11 @@ function createGreeter(lang: Languaje) {
   };
 }
 
-const spanishGreeter = createGreeter("es");
-spanishGreeter("Sergio");
+function main() {
+  const spanishGreeter = createGreeter("es");
+  const englishGreeter = createGreeter("en");
+  spanishGreeter("Sergio");
+  englishGreeter("Alice");
+}
+
+main();
