@@ -2,7 +2,6 @@
   "version": "4",
   "specifiers": {
     "jsr:@deno-library/logger@*": "1.1.7",
-<<<<<<< HEAD
     "jsr:@deno-library/logger@^1.1.8": "1.1.8",
     "jsr:@std/assert@1": "1.0.7",
     "jsr:@std/fmt@1.0.3": "1.0.3",
@@ -12,21 +11,12 @@
     "jsr:@std/io@0.225.0": "0.225.0",
     "jsr:@std/path@^1.0.7": "1.0.8",
     "jsr:@std/path@^1.0.8": "1.0.8"
-=======
-    "jsr:@std/assert@1": "1.0.7",
-    "jsr:@std/fmt@1.0.3": "1.0.3",
-    "jsr:@std/fs@1.0.5": "1.0.5",
-    "jsr:@std/internal@^1.0.5": "1.0.5",
-    "jsr:@std/io@0.225.0": "0.225.0",
-    "jsr:@std/path@^1.0.7": "1.0.8"
->>>>>>> 01-creacionales-inicio
   },
   "jsr": {
     "@deno-library/logger@1.1.7": {
       "integrity": "817947f12178e0faf21d43e4ec3823272dbdbb897dea74aec1220b00d60dc6bd",
       "dependencies": [
         "jsr:@std/fmt",
-<<<<<<< HEAD
         "jsr:@std/fs@1.0.5",
         "jsr:@std/io"
       ]
@@ -38,12 +28,6 @@
         "jsr:@std/fs@^1.0.6"
       ]
     },
-=======
-        "jsr:@std/fs",
-        "jsr:@std/io"
-      ]
-    },
->>>>>>> 01-creacionales-inicio
     "@std/assert@1.0.7": {
       "integrity": "64ce9fac879e0b9f3042a89b3c3f8ccfc9c984391af19e2087513a79d73e28c3",
       "dependencies": [
@@ -56,7 +40,6 @@
     "@std/fs@1.0.5": {
       "integrity": "41806ad6823d0b5f275f9849a2640d87e4ef67c51ee1b8fb02426f55e02fd44e",
       "dependencies": [
-<<<<<<< HEAD
         "jsr:@std/path@^1.0.7"
       ]
     },
@@ -64,9 +47,6 @@
       "integrity": "ba674672693340c5ebdd018b4fe1af46cb08741f42b4c538154e97d217b55bdd",
       "dependencies": [
         "jsr:@std/path@^1.0.8"
-=======
-        "jsr:@std/path"
->>>>>>> 01-creacionales-inicio
       ]
     },
     "@std/internal@1.0.5": {
@@ -79,7 +59,6 @@
       "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
     }
   },
-<<<<<<< HEAD
   "redirects": {
     "https://deno.land/std/log/mod.ts": "https://deno.land/std@0.224.0/log/mod.ts"
   },
@@ -120,10 +99,6 @@
   "workspace": {
     "dependencies": [
       "jsr:@deno-library/logger@^1.1.8",
-=======
-  "workspace": {
-    "dependencies": [
->>>>>>> 01-creacionales-inicio
       "jsr:@std/assert@1"
     ]
   }
