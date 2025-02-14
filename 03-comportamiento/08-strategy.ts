@@ -17,3 +17,61 @@
  * ! patitos compiten en una carrera y cada uno tiene su propia
  * ! estrategia de movimiento (por ejemplo, nadar, volar o caminar).
  */
+
+interface MovementStrategy {
+  move(): void;
+}
+
+class SwimFast implements MovementStrategy {
+  move(): void {
+    console.log("El pato nada rapidamente sobre el agua");
+  }
+}
+
+class FlyOverWater implements MovementStrategy {
+  move(): void {
+    console.log("El pato vuela sobre el agua");
+  }
+}
+
+class WalkClumsily implements MovementStrategy {
+  move(): void {
+    console.log("El pato camina por la orilla");
+  }
+}
+
+class Duck {
+  private name: string;
+  private movementStrategy: MovementStrategy;
+
+  constructor(name: string, movementStrategy: MovementStrategy) {
+    this.name = name;
+    this.movementStrategy = movementStrategy;
+
+    console.log(`El pato ${this.name} esta listo para competir`);
+  }
+
+  performMove() {
+    console.log(`${this.name} se preprara para moverse...`);
+    this.movementStrategy.move();
+  }
+
+  setMovementStrategy(movementStrategy: MovementStrategy) {
+    this.movementStrategy = movementStrategy;
+    console.log(`${this.name} ha cambiado su estrategia de movimiento`);
+  }
+}
+
+function main() {
+  const duck1 = new Duck("Duck 1 rapido", new SwimFast());
+  const duck2 = new Duck("Duck 2 volador", new FlyOverWater());
+  const duck3 = new Duck("Duck 3 torpe", new WalkClumsily());
+
+  console.log(`Comienza la carrera:`);
+  duck1.performMove();
+  duck2.performMove();
+
+  duck3.performMove();
+}
+
+main();
