@@ -64,12 +64,11 @@ class Coffee extends HotBeverage {
   }
 }
 
-
-function main(){
+function main() {
   const tea = new Tea();
   const coffee = new Coffee();
   tea.prepare();
-//   coffee.prepare();
+  //   coffee.prepare();
 }
 
 main();
